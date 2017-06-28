@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:annotation-config/>
+
+
+    <!--<bean id="propertySourcesPlaceholderConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+        <!--<property name="location" value="classpath:application.properties"/>-->
+    <!--</bean>-->
+    <context:property-placeholder location="classpath:application.properties" />
+
+    <bean id="pomodoroProfileFactory" class="pz.pomodoro.timer.factory.PomodoroProfileFactory"/>
+    <bean id="changeBackgroundColorToBlue" class="pz.pomodoro.timer.operation.ChangeBackgroundColor">
+        <constructor-arg index="0" value="#3F51B5"/>
+    </bean>
+    <bean id="changeBackgroundColorToGreen" class="pz.pomodoro.timer.operation.ChangeBackgroundColor">
+        <constructor-arg index="0" value="#4CAF50"/>
+    </bean>
+    <bean id="changeDisplayTextButtonStop" class="pz.pomodoro.timer.operation.ChangeDisplayTextButton">
+        <constructor-arg index="0" value="Stop"/>
+    </bean>
+    <bean id="displayStartNotification" class="pz.pomodoro.timer.operation.DisplayNotification">
+        <constructor-arg index="0" value="Break Finished"/>
+        <constructor-arg index="1" value="Time to focus!"/>
+        <constructor-arg index="2" value="45"/>
+    </bean>
+    <bean id="displayStopNotification" class="pz.pomodoro.timer.operation.DisplayNotification">
+        <constructor-arg index="0" value="Pomodoro finished!"/>
+        <constructor-arg index="1" value="You've just finished your pomodoro!"/>
+        <constructor-arg index="2" value="45"/>
+    </bean>
+    <bean id="lockTimerButton" class="pz.pomodoro.timer.operation.LockTimerButton"/>
+    <bean id="moveTimerForward" class="pz.pomodoro.timer.operation.MoveTimerForward"/>
+    <bean id="updateApplicationTitle" class="pz.pomodoro.timer.operation.UpdateApplicationTitle"/>
+    <bean id="timerController" class="pz.pomodoro.timer.controller.TimerController">
+        <constructor-arg ref="pomodoroProfileFactory" />
+        <constructor-arg ref="pomodoroProperties" />
+    </bean>
+
+    <bean id="pomodoroProperties" class="pz.pomodoro.timer.properties.PomodoroProperties"/>
+
+
+    <!--<bean id="pomodoroTimer" class="pz.pomodoro.timer.timer.ContinuousPomodoro">-->
+        <!--<constructor-arg ref="tickActivities"/>-->
+        <!--<constructor-arg ref="stopActivities"/>-->
+        <!--<constructor-arg ref="startActivities"/>-->
+    <!--</bean>-->
+
+    <bean id="pomodoro" class="pz.pomodoro.timer.timer.SpringPomodoro">
+        <constructor-arg ref="tickActivities"/>
+        <constructor-arg ref="startActivities"/>
+        <constructor-arg ref="stopActivities"/>
+        <constructor-arg ref="firstTickActivities"/>
+        <property name="taskTime" value="25"/>
+        <property name="breakTime" value="5"/>
+        <property name="longBreakOccurrence" value="4" />
+        <property name="longBreakTime" value="15" />
+    </bean>
+
+    <bean id="work" class="pz.pomodoro.timer.timer.SpringPomodoro">
+        <constructor-arg ref="tickActivities"/>
+        <constructor-arg ref="startActivities"/>
+        <constructor-arg ref="stopActivities"/>
+        <constructor-arg ref="firstTickActivities"/>
+        <property name="taskTime" value="45"/>
+        <property name="breakTime" value="5"/>
+        <property name="longBreakOccurrence" value="2" />
+        <property name="longBreakTime" value="8" />
+    </bean>
+
+    <bean id="test" class="pz.pomodoro.timer.timer.SpringPomodoro">
+        <constructor-arg ref="tickActivities"/>
+        <constructor-arg ref="startActivities"/>
+        <constructor-arg ref="stopActivities"/>
+        <constructor-arg ref="firstTickActivities"/>
+        <property name="taskTime" value="1"/>
+        <property name="breakTime" value="1"/>
+        <property name="longBreakOccurrence" value="2" />
+        <property name="longBreakTime" value="15" />
+    </bean>
+
+
+    <util:set id="firstTickActivities" value-type="pz.pomodoro.timer.operation.IOperation">
+        <ref bean="lockTimerButton"/>
+        <ref bean="changeDisplayTextButtonStop"/>
+    </util:set>
+
+    <util:set id="tickActivities" value-type="pz.pomodoro.timer.operation.IOperation">
+        <ref bean="updateApplicationTitle"/>
+        <ref bean="moveTimerForward"/>
+    </util:set>
+    <util:set id="stopActivities" value-type="pz.pomodoro.timer.operation.IOperation">
+        <ref bean="changeBackgroundColorToGreen"/>
+        <ref bean="displayStopNotification"/>
+    </util:set>
+    <util:set id="startActivities" value-type="pz.pomodoro.timer.operation.IOperation">
+        <ref bean="changeBackgroundColorToBlue"/>
+        <ref bean="changeDisplayTextButtonStop"/>
+        <ref bean="displayStartNotification"/>
+
+    </util:set>
+
+</beans>
