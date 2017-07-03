@@ -8,8 +8,6 @@
     <artifactId>Pomodoro-Timer</artifactId>
     <version>0.0.9-SNAPSHOT</version>
 
-
-
     <build>
             <!--<resources>-->
                 <!--<resource>-->
