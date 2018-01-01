@@ -6,7 +6,7 @@
 
     <groupId>pz.pomodoro</groupId>
     <artifactId>Pomodoro-Timer</artifactId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>1.0.0-M1</version>
 
     <build>
             <!--<resources>-->
