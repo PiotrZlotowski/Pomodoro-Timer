@@ -22,7 +22,7 @@ public class Main extends Application {
         Map<String, String> parameters = getParameters().getNamed();
         primaryStage.setTitle("Pomodoro");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 210, 70));
+        primaryStage.setScene(new Scene(root, 210, 80));
         setStayStopSettings(primaryStage, context);
         primaryStage.show();
     }
