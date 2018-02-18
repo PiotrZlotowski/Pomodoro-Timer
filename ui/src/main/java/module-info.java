@@ -7,6 +7,7 @@ module pz.time.ui {
     requires transitive pz.time.core;
     requires pz.time.api;
     exports pz.timer.controller to pz.time.app;
+    exports pz.timer.panels to pz.time.app;
     opens pz.timer.controller to spring.beans, spring.core, javafx.fxml;
     opens forms;
 }

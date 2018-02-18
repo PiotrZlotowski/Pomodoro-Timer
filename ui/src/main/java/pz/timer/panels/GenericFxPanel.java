@@ -10,9 +10,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class GenericPanel implements Panel {
+public abstract class GenericFxPanel implements Panel {
 
-    Map<String, Object> components = new HashMap<>();
+    Map<String, Control> components = new HashMap<>();
 
     @Override
     public String getTitle() {
@@ -25,7 +25,7 @@ public class GenericPanel implements Panel {
     }
 
     @Override
-    public <T> void addComponent(String name, T component) {
+    public <T extends Control> void addComponent(String name, T component) {
         if (name == null || name.isEmpty()) {
             return;
         }
@@ -41,9 +41,7 @@ public class GenericPanel implements Panel {
     }
 
 
-    protected Stage getCurrentStage() {
-        Optional<Button> btnTimer = getComponent("btnTimer", Button.class);
-        return btnTimer.stream().map(btn -> (Stage) btn.getScene().getWindow()).findFirst().orElseThrow(NoSuchElementException::new);
+    private Stage getCurrentStage() {
+        return components.values().stream().map(component -> (Stage)component.getScene().getWindow()).findFirst().orElseThrow(NoSuchElementException::new);
     }
-
 }

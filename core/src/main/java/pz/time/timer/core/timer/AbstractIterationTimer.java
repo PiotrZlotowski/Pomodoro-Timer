@@ -2,7 +2,6 @@ package pz.time.timer.core.timer;
 
 import pz.time.timer.core.PluginManager;
 import pz.time.timer.core.context.TimerContext;
-import pz.time.timer.model.TimerInterface;
 import pz.timer.api.core.Context;
 import pz.timer.api.core.Operation;
 import pz.timer.api.core.Timer;
